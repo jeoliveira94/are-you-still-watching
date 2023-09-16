@@ -10,4 +10,9 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
     fun getAllPlaylists(): Iterable<Playlist> {
         return playlistRepository.findAll()
     }
+
+    @GetMapping("/{id}")
+    fun getPlaylistById(@PathVariable id: Long): Playlist {
+        return playlistRepository.findById(id).orElseThrow { NoSuchElementException("Playlist not found") }
+    }
 }
