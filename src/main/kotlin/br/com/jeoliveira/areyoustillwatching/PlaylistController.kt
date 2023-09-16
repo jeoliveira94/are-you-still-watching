@@ -28,7 +28,7 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
 
         existingPlaylist.name = updatedPlaylist.name
         existingPlaylist.description = updatedPlaylist.description
-        existingPlaylist.url = updatedPlaylist.description
+        existingPlaylist.url = updatedPlaylist.url
 
         return playlistRepository.save(existingPlaylist)
     }
