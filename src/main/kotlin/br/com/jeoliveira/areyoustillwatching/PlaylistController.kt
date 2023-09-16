@@ -15,4 +15,9 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
     fun getPlaylistById(@PathVariable id: Long): Playlist {
         return playlistRepository.findById(id).orElseThrow { NoSuchElementException("Playlist not found") }
     }
+
+    @PostMapping("/")
+    fun createPlaylist(@RequestBody playlist: Playlist): Playlist {
+        return playlistRepository.save(playlist)
+    }
 }
