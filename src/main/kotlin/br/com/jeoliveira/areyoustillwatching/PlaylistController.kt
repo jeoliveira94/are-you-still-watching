@@ -32,4 +32,9 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
 
         return playlistRepository.save(existingPlaylist)
     }
+
+    @DeleteMapping("/{id}")
+    fun deletePlaylist(@PathVariable id: Long) {
+        playlistRepository.deleteById(id)
+    }
 }
