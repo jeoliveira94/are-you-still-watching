@@ -20,4 +20,16 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
     fun createPlaylist(@RequestBody playlist: Playlist): Playlist {
         return playlistRepository.save(playlist)
     }
+
+    @PutMapping("/{id}")
+    fun updatePlaylist(@PathVariable id: Long, @RequestBody updatedPlaylist: Playlist): Playlist {
+        val existingPlaylist = playlistRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Playlist not found") }
+
+        existingPlaylist.name = updatedPlaylist.name
+        existingPlaylist.description = updatedPlaylist.description
+        existingPlaylist.url = updatedPlaylist.description
+
+        return playlistRepository.save(existingPlaylist)
+    }
 }
