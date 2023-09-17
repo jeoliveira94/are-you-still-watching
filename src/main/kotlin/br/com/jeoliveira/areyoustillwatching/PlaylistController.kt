@@ -1,5 +1,6 @@
 package br.com.jeoliveira.areyoustillwatching
 
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -17,12 +18,12 @@ class PlaylistController(private val playlistRepository: PlaylistRepository) {
     }
 
     @PostMapping("/")
-    fun createPlaylist(@RequestBody playlist: Playlist): Playlist {
+    fun createPlaylist(@Valid @RequestBody playlist: Playlist): Playlist {
         return playlistRepository.save(playlist)
     }
 
     @PutMapping("/{id}")
-    fun updatePlaylist(@PathVariable id: Long, @RequestBody updatedPlaylist: Playlist): Playlist {
+    fun updatePlaylist(@PathVariable id: Long, @Valid @RequestBody updatedPlaylist: Playlist): Playlist {
         val existingPlaylist = playlistRepository.findById(id)
             .orElseThrow { NoSuchElementException("Playlist not found") }
 
