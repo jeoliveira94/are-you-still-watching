@@ -1,4 +1,4 @@
-package br.com.jeoliveira.areyoustillwatching
+package br.com.jeoliveira.areyoustillwatching.models
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
