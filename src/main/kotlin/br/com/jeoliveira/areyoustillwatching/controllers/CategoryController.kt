@@ -18,4 +18,16 @@ class CategoryController(
         return ResponseEntity(categories, HttpStatus.OK)
     }
 
+    @GetMapping("/{id}")
+    fun getCategoryById(@PathVariable id: Long): ResponseEntity<Any> {
+        val category = categoryService.getCategoryById(id)
+        if (category.isPresent) {
+            return ResponseEntity(category.get(), HttpStatus.OK)
+        }
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body("Category with ID $id not found")
+    }
+
+    }
 }

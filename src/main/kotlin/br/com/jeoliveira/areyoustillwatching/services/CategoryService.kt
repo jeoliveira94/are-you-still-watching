@@ -14,4 +14,8 @@ class CategoryService(@Autowired private val categoryRepository: CategoryReposit
         return categoryRepository.findAll()
     }
 
+    fun getCategoryById(id: Long): Optional<Category> {
+        return categoryRepository.findById(id)
+    }
+
 }
