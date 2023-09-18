@@ -22,4 +22,17 @@ class CategoryService(@Autowired private val categoryRepository: CategoryReposit
         return categoryRepository.save(category)
     }
 
+    fun updateCategory(id: Long, updatedCategory: Category): Optional<Category> {
+        val existingCategoryOptional = categoryRepository.findById(id)
+
+        if(existingCategoryOptional.isPresent) {
+            val existingCategory = existingCategoryOptional.get()
+            existingCategory.title = updatedCategory.title
+            existingCategory.color = updatedCategory.color
+
+            return Optional.of(this.categoryRepository.save(existingCategory))
+        }
+
+        return Optional.empty()
+    }
 }

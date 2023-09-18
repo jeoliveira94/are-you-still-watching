@@ -35,5 +35,18 @@ class CategoryController(
         return ResponseEntity(createdCategory, HttpStatus.CREATED)
     }
 
+    @PutMapping("/{id}")
+    fun updateCategory(@PathVariable id: Long, @Valid @RequestBody updatedCategory: Category): ResponseEntity<Any> {
+        val updatedCategoryOptional = categoryService.updateCategory(id, updatedCategory)
+
+        if (updatedCategoryOptional.isPresent) {
+            return ResponseEntity(updatedCategoryOptional.get(), HttpStatus.OK)
+        }
+
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body("Category with ID $id not found")
+    }
+
     }
 }
