@@ -1,13 +1,10 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:playlists_db
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
+    url: jdbc:postgresql://192.168.0.176:5432/aysw
+    username: postgres
+    password: mysecretpassword
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
 
