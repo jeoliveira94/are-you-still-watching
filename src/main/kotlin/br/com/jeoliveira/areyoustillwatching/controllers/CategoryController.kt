@@ -29,5 +29,11 @@ class CategoryController(
             .body("Category with ID $id not found")
     }
 
+    @PostMapping("/")
+    fun createCategory(@Valid @RequestBody category: Category): ResponseEntity<Category> {
+        val createdCategory = categoryService.createCategory(category)
+        return ResponseEntity(createdCategory, HttpStatus.CREATED)
+    }
+
     }
 }

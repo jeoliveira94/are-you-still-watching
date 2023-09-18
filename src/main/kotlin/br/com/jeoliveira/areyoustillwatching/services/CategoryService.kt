@@ -18,4 +18,8 @@ class CategoryService(@Autowired private val categoryRepository: CategoryReposit
         return categoryRepository.findById(id)
     }
 
+    fun createCategory(category: Category): Category {
+        return categoryRepository.save(category)
+    }
+
 }
