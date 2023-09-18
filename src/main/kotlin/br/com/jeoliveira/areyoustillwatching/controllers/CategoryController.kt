@@ -48,5 +48,9 @@ class CategoryController(
             .body("Category with ID $id not found")
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteCategoryById(@PathVariable id: Long): ResponseEntity<Void> {
+        categoryService.deleteCategoryById(id)
+        return ResponseEntity.ok(null)
     }
 }

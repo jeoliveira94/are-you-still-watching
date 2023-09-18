@@ -35,4 +35,8 @@ class CategoryService(@Autowired private val categoryRepository: CategoryReposit
 
         return Optional.empty()
     }
+
+    fun deleteCategoryById(id: Long) {
+        categoryRepository.deleteById(id)
+    }
 }
