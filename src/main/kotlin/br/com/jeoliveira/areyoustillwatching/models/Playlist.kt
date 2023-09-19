@@ -26,5 +26,6 @@ class Playlist(
 
     @field:NotNull(message = "category id is mandatory")
     @field:Min(1, message = "category id should be greater than 1")
-    var category_id: Long
+    @Column(name = "category_id")
+    var categoryId: Long
 )

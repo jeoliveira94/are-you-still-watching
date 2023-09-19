@@ -1,7 +1,10 @@
 package br.com.jeoliveira.areyoustillwatching
 
+import br.com.jeoliveira.areyoustillwatching.models.Playlist
 import br.com.jeoliveira.areyoustillwatching.services.CategoryService
+import br.com.jeoliveira.areyoustillwatching.services.PlaylistService
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -9,7 +12,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/v1/categories")
 class CategoryController(
-    private val categoryService: CategoryService
+    @Autowired private val categoryService: CategoryService,
+    @Autowired private val playlistService: PlaylistService
 ) {
 
     @GetMapping("/")
@@ -27,6 +31,12 @@ class CategoryController(
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body("Category with ID $id not found")
+    }
+
+    @GetMapping("/{categoryId}/playlists")
+    fun getPlaylistsByCategoryId(@PathVariable categoryId: Long): ResponseEntity<List<Playlist>> {
+        val playlists = playlistService.getPlaylistsByCategoryId(categoryId)
+        return ResponseEntity(playlists, HttpStatus.OK)
     }
 
     @PostMapping("/")

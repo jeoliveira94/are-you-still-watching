@@ -31,7 +31,7 @@ class PlaylistService(
             existingPlaylist.name = updatedPlaylist.name
             existingPlaylist.description = updatedPlaylist.description
             existingPlaylist.url = updatedPlaylist.url
-            existingPlaylist.category_id = updatedPlaylist.category_id
+            existingPlaylist.categoryId = updatedPlaylist.categoryId
             return Optional.of(this.playlistRepository.save(existingPlaylist))
         }
 
@@ -40,5 +40,9 @@ class PlaylistService(
 
     fun deletePlaylistById(id: Long) {
         playlistRepository.deleteById(id)
+    }
+
+    fun getPlaylistsByCategoryId(categoryId: Long): List<Playlist> {
+        return playlistRepository.findByCategoryId(categoryId);
     }
 }
