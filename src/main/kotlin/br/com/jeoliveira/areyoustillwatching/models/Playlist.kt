@@ -1,6 +1,7 @@
 package br.com.jeoliveira.areyoustillwatching.models
 
 import jakarta.persistence.*
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
@@ -21,5 +22,9 @@ class Playlist(
 
     @field:NotBlank(message = "url is mandatory")
     @field:Size(max = 150)
-    var url: String
+    var url: String,
+
+    @field:NotNull(message = "category id is mandatory")
+    @field:Min(1, message = "category id should be greater than 1")
+    var category_id: Long
 )
