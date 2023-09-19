@@ -11,11 +11,11 @@ class Category(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @field:NotBlank
+    @field:NotBlank(message = "url is mandatory")
     @field:Size(max = 150)
     var title: String,
 
-    @field:NotBlank
+    @field:NotBlank(message = "url is mandatory")
     @field:Size(max = 10)
     var color: String
 )
