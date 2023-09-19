@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 @Entity
-@Table(name = "playlists")
+@Table(name = "playlist")
 class Playlist(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
