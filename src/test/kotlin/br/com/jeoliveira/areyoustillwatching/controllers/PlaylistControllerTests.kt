@@ -104,4 +104,27 @@ class PlaylistControllerTest {
 
         verify(exactly = 1) { playlistService.getPlaylistById(any<Long>()) }
     }
+
+    @Test
+    fun `Should return a new playlist`() {
+        // Arrange
+        val newPlaylist = Playlist(name = "New Playlist", description = "New Description", url = "https://example.com", categoryId = 3L)
+
+        // Mock the behavior of your service method
+        every { playlistService.createPlaylist(any<Playlist>()) } returns newPlaylist
+
+        // Act and Assert
+        mockMvc.perform(post("/v1/playlists/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"New Playlist\",\"description\":\"New Description\",\"url\":\"https://example.com\",\"categoryId\":3}")
+        )
+            .andExpect(status().isCreated)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.name").value(newPlaylist.name))
+            .andExpect(jsonPath("$.description").value(newPlaylist.description))
+            .andExpect(jsonPath("$.url").value(newPlaylist.url))
+            .andExpect(jsonPath("$.categoryId").value(newPlaylist.categoryId))
+
+        verify(exactly = 1) { playlistService.createPlaylist(any<Playlist>()) }
+    }
 }
