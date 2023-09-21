@@ -152,4 +152,20 @@ class PlaylistControllerTest {
 
         verify(exactly = 1) { playlistService.updatePlaylist(any<Long>(), any<Playlist>()) }
     }
+
+    @Test
+    fun `Should delete a playlist`() {
+        // Arrange
+        val playlistId = 1L
+
+        // Mock the behavior of your service method
+        every { playlistService.deletePlaylistById(playlistId) } returns Unit
+
+        // Act and Assert
+        mockMvc.perform(delete("/v1/playlists/$playlistId"))
+            .andExpect(status().isOk)
+
+        verify(exactly = 1) { playlistService.deletePlaylistById(any<Long>()) }
+    }
+
 }
