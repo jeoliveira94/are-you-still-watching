@@ -127,4 +127,29 @@ class PlaylistControllerTest {
 
         verify(exactly = 1) { playlistService.createPlaylist(any<Playlist>()) }
     }
+
+    @Test
+    fun `Should return updated playlists`() {
+        // Arrange
+        val playlistId = 1L
+        val updatedPlaylist = Playlist(id = playlistId, name = "Updated Playlist", description = "Updated Description", url = "https://example.com/updated", categoryId = 4L)
+
+        // Mock the behavior of your service method
+        every { playlistService.updatePlaylist(any<Long>(), any<Playlist>()) } returns Optional.of(updatedPlaylist)
+
+        // Act and Assert
+        mockMvc.perform(put("/v1/playlists/$playlistId")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"Updated Playlist\",\"description\":\"Updated Description\",\"url\":\"https://example.com/updated\",\"categoryId\":4}")
+        )
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").value(playlistId))
+            .andExpect(jsonPath("$.name").value(updatedPlaylist.name))
+            .andExpect(jsonPath("$.description").value(updatedPlaylist.description))
+            .andExpect(jsonPath("$.url").value(updatedPlaylist.url))
+            .andExpect(jsonPath("$.categoryId").value(updatedPlaylist.categoryId))
+
+        verify(exactly = 1) { playlistService.updatePlaylist(any<Long>(), any<Playlist>()) }
+    }
 }
