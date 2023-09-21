@@ -28,4 +28,19 @@ class Playlist(
     @field:Min(1, message = "category id should be greater than 1")
     @Column(name = "category_id")
     var categoryId: Long
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Playlist
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (description != other.description) return false
+        if (url != other.url) return false
+        if (categoryId != other.categoryId) return false
+
+        return true
+    }
+}
