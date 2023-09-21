@@ -45,4 +45,8 @@ class PlaylistService(
     fun getPlaylistsByCategoryId(categoryId: Long): List<Playlist> {
         return playlistRepository.findByCategoryId(categoryId);
     }
+
+    fun getPlaylistsByName(title: String): Iterable<Playlist> {
+        return playlistRepository.findByName(title);
+    }
 }

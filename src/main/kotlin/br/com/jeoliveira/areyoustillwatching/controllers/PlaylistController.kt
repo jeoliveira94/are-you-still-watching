@@ -16,8 +16,13 @@ class PlaylistController(
 ) {
 
     @GetMapping("/")
-    fun getAllPlaylists(): ResponseEntity<Iterable<Playlist>> {
-        return ResponseEntity.ok(this.playlistService.getAllPlaylists())
+    fun getAllPlaylists(@RequestParam(required = false) name: String?): ResponseEntity<Iterable<Playlist>> {
+        val playlists =  if (name.isNullOrEmpty()) {
+            playlistService.getAllPlaylists()
+        } else {
+            playlistService.getPlaylistsByName(name)
+        }
+        return ResponseEntity(playlists, HttpStatus.OK)
     }
 
     @GetMapping("/{id}")

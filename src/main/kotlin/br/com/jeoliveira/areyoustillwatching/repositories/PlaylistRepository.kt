@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface PlaylistRepository : JpaRepository<Playlist, Long> {
     fun findByCategoryId(categoryId: Long): List<Playlist>
+    fun findByName(name: String): Iterable<Playlist>
 }
