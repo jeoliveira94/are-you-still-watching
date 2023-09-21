@@ -39,7 +39,7 @@ class PlaylistController(
 
     @PostMapping("/")
     fun createPlaylist(@Valid @RequestBody playlist: Playlist): ResponseEntity<Playlist> {
-        return ResponseEntity(playlist, HttpStatus.CREATED)
+        return ResponseEntity(this.playlistService.createPlaylist(playlist), HttpStatus.CREATED)
     }
 
     @PutMapping("/{id}")
