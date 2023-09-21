@@ -82,4 +82,26 @@ class PlaylistControllerTest {
 
     }
 
+    @Test
+    fun `Should return playlist by id`() {
+        // Arrange
+        val playlistId = 1L
+        val playlist = Playlist(id = playlistId, name = "Test Playlist", description = "Test Description", url = "https://example.com", categoryId = 2L)
+
+        // Mock the behavior of your service method
+        every { playlistService.getPlaylistById(playlistId) } returns Optional.of(playlist)
+
+        // Act and Assert
+        mockMvc.perform(get("/v1/playlists/$playlistId")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").value(playlistId.toInt()))
+            .andExpect(jsonPath("$.name").value(playlist.name))
+            .andExpect(jsonPath("$.description").value(playlist.description))
+            .andExpect(jsonPath("$.url").value(playlist.url))
+            .andExpect(jsonPath("$.categoryId").value(playlist.categoryId.toInt()))
+
+        verify(exactly = 1) { playlistService.getPlaylistById(any<Long>()) }
+    }
 }
