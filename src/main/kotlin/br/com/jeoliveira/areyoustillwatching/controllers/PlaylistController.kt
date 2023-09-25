@@ -1,10 +1,10 @@
 package br.com.jeoliveira.areyoustillwatching.controllers
 
 import br.com.jeoliveira.areyoustillwatching.models.Playlist
-import br.com.jeoliveira.areyoustillwatching.repositories.PlaylistRepository
 import br.com.jeoliveira.areyoustillwatching.services.PlaylistService
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,11 +16,12 @@ class PlaylistController(
 ) {
 
     @GetMapping("/")
-    fun getAllPlaylists(@RequestParam(required = false) name: String?): ResponseEntity<Iterable<Playlist>> {
+    fun getAllPlaylists(@RequestParam name: String?,
+                        pageable: Pageable): ResponseEntity<Iterable<Playlist>> {
         val playlists =  if (name.isNullOrEmpty()) {
-            playlistService.getAllPlaylists()
+            playlistService.getAllPlaylists(pageable)
         } else {
-            playlistService.getPlaylistsByName(name)
+            playlistService.getPlaylistsByName(name, pageable)
         }
         return ResponseEntity(playlists, HttpStatus.OK)
     }

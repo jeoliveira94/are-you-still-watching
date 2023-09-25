@@ -4,6 +4,8 @@ import br.com.jeoliveira.areyoustillwatching.models.Playlist
 import br.com.jeoliveira.areyoustillwatching.services.PlaylistService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
@@ -27,6 +29,14 @@ class PlaylistControllerTest {
     @MockkBean
     private lateinit var playlistService: PlaylistService
 
+    companion object {
+        fun playlistsFromResponse(response: String): List<Playlist> {
+            val gson = Gson()
+            val playlistListType = object : TypeToken<List<Playlist>>() {}.type
+            return gson.fromJson(response, playlistListType)
+        }
+    }
+
     @Test
     fun `should return a list of playlists`() {
         // Arrange
@@ -37,7 +47,7 @@ class PlaylistControllerTest {
         )
 
         // Mock the behavior of the playlistService
-        every { playlistService.getAllPlaylists() } returns expectedPlaylists
+        every { playlistService.getAllPlaylists(any()) } returns expectedPlaylists
 
         // Act and Assert
         val response = mockMvc.perform(get("/v1/playlists/"))
@@ -45,13 +55,11 @@ class PlaylistControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andReturn().response.contentAsString
 
-        // Deserialize the JSON response into a list of Playlist objects
-        val objectMapper = jacksonObjectMapper()
-        val resultPlaylist: List<Playlist> = objectMapper.readValue(response)
+        val resultPlaylist = playlistsFromResponse(response)
 
-        assertContentEquals(expectedPlaylists, resultPlaylist);
-        verify(exactly = 1) { playlistService.getAllPlaylists() }
-        verify(exactly = 0) { playlistService.getPlaylistsByName(any<String>()) }
+        assertContentEquals(expectedPlaylists, resultPlaylist)
+        verify(exactly = 1) { playlistService.getAllPlaylists(any()) }
+        verify(exactly = 0) { playlistService.getPlaylistsByName(any(), any()) }
     }
 
     @Test
@@ -64,7 +72,7 @@ class PlaylistControllerTest {
         )
 
         // Mock the behavior of the playlistService
-        every { playlistService.getPlaylistsByName(any<String>()) } returns expectedPlaylists
+        every { playlistService.getPlaylistsByName(any(), any()) } returns expectedPlaylists
 
         // Act and Assert
         val response = mockMvc.perform(get("/v1/playlists/?name=$name"))
@@ -72,13 +80,12 @@ class PlaylistControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andReturn().response.contentAsString
 
-        // Deserialize the JSON response into a list of Playlist objects
         val objectMapper = jacksonObjectMapper()
         val resultPlaylist: List<Playlist> = objectMapper.readValue(response)
 
         assertContentEquals(expectedPlaylists, resultPlaylist)
-        verify(exactly = 1) { playlistService.getPlaylistsByName(name) }
-        verify(exactly = 0) { playlistService.getAllPlaylists() }
+        verify(exactly = 1) { playlistService.getPlaylistsByName(name, any()) }
+        verify(exactly = 0) { playlistService.getAllPlaylists(any()) }
 
     }
 

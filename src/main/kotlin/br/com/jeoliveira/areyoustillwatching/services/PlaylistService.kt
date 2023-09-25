@@ -3,6 +3,7 @@ package br.com.jeoliveira.areyoustillwatching.services
 import br.com.jeoliveira.areyoustillwatching.models.Playlist
 import br.com.jeoliveira.areyoustillwatching.repositories.PlaylistRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.Optional
 
@@ -11,8 +12,8 @@ class PlaylistService(
     @Autowired private val playlistRepository: PlaylistRepository
 ) {
 
-    fun getAllPlaylists(): Iterable<Playlist> {
-        return playlistRepository.findAll()
+    fun getAllPlaylists(pageable: Pageable): Iterable<Playlist> {
+        return playlistRepository.findAll(pageable)
     }
 
     fun getPlaylistById(id: Long): Optional<Playlist> {
@@ -42,11 +43,11 @@ class PlaylistService(
         playlistRepository.deleteById(id)
     }
 
-    fun getPlaylistsByCategoryId(categoryId: Long): List<Playlist> {
-        return playlistRepository.findByCategoryId(categoryId);
+    fun getPlaylistsByCategoryId(categoryId: Long, pageable: Pageable): List<Playlist> {
+        return playlistRepository.findByCategoryId(categoryId, pageable);
     }
 
-    fun getPlaylistsByName(title: String): Iterable<Playlist> {
-        return playlistRepository.findByName(title);
+    fun getPlaylistsByName(name: String, pageable: Pageable): Iterable<Playlist> {
+        return playlistRepository.findByName(name, pageable);
     }
 }

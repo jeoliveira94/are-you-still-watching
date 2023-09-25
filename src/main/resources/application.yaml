@@ -7,6 +7,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  data:
+    rest:
+      default-page-size: 5
+      max-page-size: 20
 
 server:
   port: 8080
