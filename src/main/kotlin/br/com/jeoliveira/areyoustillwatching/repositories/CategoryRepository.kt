@@ -1,5 +1,5 @@
 package br.com.jeoliveira.areyoustillwatching
 
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface CategoryRepository : CrudRepository<Category, Long>
+interface CategoryRepository : JpaRepository<Category, Long>

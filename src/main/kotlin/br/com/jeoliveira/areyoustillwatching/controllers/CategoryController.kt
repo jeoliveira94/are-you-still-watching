@@ -5,6 +5,7 @@ import br.com.jeoliveira.areyoustillwatching.services.CategoryService
 import br.com.jeoliveira.areyoustillwatching.services.PlaylistService
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,8 +18,8 @@ class CategoryController(
 ) {
 
     @GetMapping("/")
-    fun getAllCategories(): ResponseEntity<Iterable<Category>> {
-        val categories = categoryService.getAllCategories();
+    fun getAllCategories(pageable: Pageable): ResponseEntity<Iterable<Category>> {
+        val categories = categoryService.getAllCategories(pageable);
         return ResponseEntity(categories, HttpStatus.OK)
     }
 
@@ -34,8 +35,9 @@ class CategoryController(
     }
 
     @GetMapping("/{categoryId}/playlists")
-    fun getPlaylistsByCategoryId(@PathVariable categoryId: Long): ResponseEntity<List<Playlist>> {
-        val playlists = playlistService.getPlaylistsByCategoryId(categoryId)
+    fun getPlaylistsByCategoryId(@PathVariable categoryId: Long,
+                                 pageable: Pageable): ResponseEntity<List<Playlist>> {
+        val playlists = playlistService.getPlaylistsByCategoryId(categoryId, pageable)
         return ResponseEntity(playlists, HttpStatus.OK)
     }
 
